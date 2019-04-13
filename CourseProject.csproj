@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4A7E0C17-B3D0-4708-9189-7004897DB352}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>CourseProject</RootNamespace>
+    <AssemblyName>CourseProject</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>accessories-text-editor-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ChooseStyleWindow.xaml.cs">
+      <DependentUpon>ChooseStyleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomMessageBox.xaml.cs">
+      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FindWord.xaml.cs">
+      <DependentUpon>FindWord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LightTheme.cs" />
+    <Compile Include="DarkTheme.cs" />
+    <Compile Include="PinkTheme.cs" />
+    <Compile Include="ProfileWindow.xaml.cs">
+      <DependentUpon>ProfileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPalete.xaml.cs">
+      <DependentUpon>ColorPalete.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ChooseStyleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FindWord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ProfileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ColorPalete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="accessories-text-editor-icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bold_letter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\apple_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\apple_maximized.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\apple_minimized.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\italic_letter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\underline_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\colourful_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\left_me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\center_me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\right_me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\justify_me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new_textfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\home_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\acoount_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\open_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\paint_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\print_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\save_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\setting_colourful.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\arrow_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\open_menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\minimized_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\maximized_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\view_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\page_viewer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\table_me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\photo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\formating_mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\binocular_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\undo_me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\undo_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\redo_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\paste_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\copy__.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\font_pink.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\green_btn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\macos_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\macos_minimized.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\macos_shut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\red_btn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\yellow_btn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fontlight.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fontdark.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\newcenter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\newjustify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\newleft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\newright.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\inf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

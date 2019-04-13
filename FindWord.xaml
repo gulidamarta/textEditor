@@ -1,0 +1,40 @@
+﻿<Window x:Class="CourseProject.FindWord"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CourseProject"
+        mc:Ignorable="d"
+        Title="FindWord" Height="150" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+    <Grid>
+        <Grid x:Name="TopGrid"  Background="#FFF1EFEF" VerticalAlignment="Top">
+            <Grid x:Name="NotPressedGrid" HorizontalAlignment="Right" MinWidth="75" Height="25" MouseEnter="NotPressedGrid_MouseEnter" VerticalAlignment="Top">
+                <Grid  VerticalAlignment="Top">
+                    <Button x:Name="btn_Close" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" HorizontalAlignment="Right" Click="btn_Close_Click">
+                        <Image x:Name="ImageClose" Source="/CourseProject;component/Resources/red_btn.png"/>
+                    </Button>
+                </Grid>
+            </Grid>
+            <Grid x:Name="PressedGrid" HorizontalAlignment="Right" MinWidth="75" Height="25" Visibility="Hidden" VerticalAlignment="Top" MouseLeave="PressedGrid_MouseLeave">
+                <Grid VerticalAlignment="Top">
+                    <Button x:Name="btn_Close_Move" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" HorizontalAlignment="Right" Click="btnCloseMove_Click">
+                        <Image Source="/CourseProject;component/Resources/macos_close.png"/>
+                    </Button>
+                </Grid>
+            </Grid>
+
+        </Grid>
+        <Grid x:Name="MainGrid" Height="125" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Vertical" x:Name="FindWordGrid" VerticalAlignment="Bottom" Height="123" Margin="15,0">
+                <Grid Height="10"/>
+                <TextBlock x:Name="TextWord" Text="Word or sentence to find: " FontSize="16"/>
+                <Grid Height="10"/>
+                <TextBox x:Name="TextWordBox" Width="468" Height="25" FontSize="16" HorizontalAlignment="Left"/>
+                <Grid Height="10"/>
+                <Button x:Name="btnAttach" VerticalAlignment="Bottom" HorizontalAlignment="Right" MinWidth="120" BorderBrush="#FFD1D1D1" MaxHeight="50" Background="#FFE8E4E4" Click="btnAttach_Click">
+                    <TextBlock Text="Find"  FontFamily="Dubai Light" Foreground="#FF743131" FontSize="16"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

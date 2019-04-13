@@ -1,0 +1,587 @@
+﻿<Window x:Name="MainWindow_1" x:Class="CourseProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:CourseProject"
+        mc:Ignorable="d"
+        Title="Text Editor" MinHeight="1000" MinWidth="1100" WindowStartupLocation="CenterScreen" MouseMove="MainWindow_1_MouseMove" WindowStyle="None">
+    <Window.Resources>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="GridBackground">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="GridBackground">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonClose">
+            <BeginStoryboard x:Name="CloseMenu_BeginStoryboard" Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpen">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+
+    <Grid>
+        <Grid x:Name="GridBackground" Background="#FFDAD3DA" />
+        <Grid x:Name="Window" Background="#FF322E32"/>
+        <StackPanel>
+            <Grid x:Name="TopGrid" MaxHeight="25" Background="#FF5F5B5F">
+                <Grid x:Name="DocumentTitleGrid" MinWidth ="300" HorizontalAlignment="Center">
+                    <TextBlock x:Name="DocumentTitle" HorizontalAlignment="Center" FontSize="14">
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="NotPressedGrid" HorizontalAlignment="Right" MinWidth="75" MinHeight="25" MouseEnter="NotPressedGrid_MouseEnter">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnMinimized" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" Click="btnMaximize_Click" MouseEnter="btnMinimized_MouseEnter">
+                            <Image x:Name="ImageMinimized" Source="/CourseProject;component/Resources/yellow_btn.png"/>
+                        </Button>
+                        <Button x:Name="btnMaximized" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" Click="btnMaximized_Click">
+                            <Image x:Name="ImageMaximized" Source="/CourseProject;component/Resources/green_btn.png" />
+                        </Button>
+                        <Button x:Name="btn_Close" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" HorizontalAlignment="Right" Click="btn_Close_Click">
+                            <Image x:Name="ImageClose" Source="/CourseProject;component/Resources/red_btn.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="PressedGrid" HorizontalAlignment="Right" MinWidth="75" MinHeight="25" Visibility="Hidden" MouseLeave="PressedGrid_MouseLeave">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnMinimized_Move" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" Click="btnMinimizedMove_Click" MouseEnter="btnMinimized_MouseEnter" MouseMove="btnMinimized_MouseMove">
+                            <Image Source="/CourseProject;component/Resources/macos_shut.png"/>
+                        </Button>
+                        <Button x:Name="btnMaximized_Move" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" Click="btnMaximizedMove_Click">
+                            <Image Source="/CourseProject;component/Resources/macos_minimized.png"/>
+                        </Button>
+                        <Button x:Name="btn_Close_Move" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" MinHeight="25" MinWidth="25" HorizontalAlignment="Right" Click="btnCloseMove_Click">
+                            <Image Source="/CourseProject;component/Resources/macos_close.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Grid x:Name="Tools_Grid" MinHeight="75" VerticalAlignment="Top" Background="#FF5F5B5F" >
+                <StackPanel x:Name="RightToolsPanel" HorizontalAlignment="Right" Orientation="Horizontal" MinWidth="170" MinHeight="55" VerticalAlignment="Center" Margin="32,0">
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <ComboBox x:Name="cmbZoom" MinHeight="35" SelectionChanged="cmbZoom_SelectionChanged">
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Height="30" Width="40">
+                                    <TextBlock Text="50%" HorizontalAlignment="Center" FontSize="14" Margin="6,5,0,5"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Height="30" Width="40">
+                                    <TextBlock Text="70%" HorizontalAlignment="Center" FontSize="14" Margin="6,5,0,5"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center" IsSelected="True">
+                                <StackPanel Orientation="Horizontal" Height="30" Width="40">
+                                    <TextBlock Text="100%"  HorizontalAlignment="Center"  FontSize="14" Margin="6,5,0,5"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Height="30" Width="40">
+                                    <TextBlock Text="150%"  HorizontalAlignment="Center" FontSize="14" Margin="6,5,0,5"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Height="30" Width="40">
+                                    <TextBlock Text="200%" HorizontalAlignment="Center" FontSize="14" Margin="6,5,0,5"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <TextBlock x:Name="TextZoom" Text="Zoom" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <Grid Width="10"/>
+                    <StackPanel  Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button x:Name="btnFindWord" MinHeight="35" MinWidth="35" Background="#FFECECEC" BorderBrush="#FF9E9D9D" Click="btnFindWord_Click">
+                            <Image Source="/CourseProject;component/Resources/binocular_top.png" Height="35" Width="35">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextFind" Text="Find" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel  x:Name="CentralToolsPanel" HorizontalAlignment="Center" Orientation="Horizontal" MinWidth="260" MinHeight="55" VerticalAlignment="Center">
+                    <StackPanel  Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button MinHeight="35" MinWidth="35" Background="#FFECECEC" BorderBrush="#FF9E9D9D">
+                            <Image Source="/CourseProject;component/Resources/formating_mark.png" Height="35" Width="35">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextInsert" Text="Insert" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <Grid Width="10"/>
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button x:Name="btnTable" MinHeight="35" MinWidth="35" Background="#FFECECEC" BorderBrush="#FF9E9D9D" Click="btnTable_Click">
+                            <Image Source="/CourseProject;component/Resources/table.png" Height="35" Width="35">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextTable" Text="Table" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <Grid Width="10"/>
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button MinHeight="35" MinWidth="35" Background="#FFECECEC" BorderBrush="#FF9E9D9D">
+                            <Image Source="/CourseProject;component/Resources/chart.png" Height="35" Width="35">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextChart" Text="Chart" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <Grid Width="10"/>
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button x:Name="btnImage" MinHeight="35" MinWidth="35" Background="#FFECECEC" BorderBrush="#FF9E9D9D" Click="btnImage_Click">
+                            <Image Source="/CourseProject;component/Resources/photo.png" Height="35" Width="35">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextImage" Text="Image" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel  x:Name="LeftToolsPanel" HorizontalAlignment="Left" MinWidth="170" VerticalAlignment="Center" MinHeight="55" Margin="32,0" Orientation="Horizontal">
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button x:Name="btnPasteAll" MinHeight="33" Background="#FFECECEC" BorderBrush="#FF9E9D9D" Click="btnPasteAll_Click">
+                            <Image Source="/CourseProject;component/Resources/paste_.png" Height="33" Margin="1" Width="35"  VerticalAlignment="Center">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextPasteAll" Text="Paste All" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <Grid Width="10"/>
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button x:Name="btnCopyAll" MinHeight="33" Background="#FFECECEC" BorderBrush="#FF9E9D9D" Click="btnCopyAll_Click">
+                            <Image Source="/CourseProject;component/Resources/copy__.png" Height="33" Margin="1" Width="35"  VerticalAlignment="Center">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextCopy" Text="Copy" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <Grid Width="10"/>
+                    <StackPanel Width="80" Orientation="Vertical" HorizontalAlignment="Center">
+                        <Button x:Name="btnAddPage" MinHeight="35" Background="#FFECECEC" BorderBrush="#FF9E9D9D">
+                            <Image Source="/CourseProject;component/Resources/plus.png" Height="33" Margin="1" Width="17"  VerticalAlignment="Center">
+                            </Image>
+                        </Button>
+                        <TextBlock x:Name="TextAddPage" Text="Add Page" HorizontalAlignment="Center" FontSize="14" Foreground="#FFE8E4E4"/>
+                    </StackPanel>
+                    <!--This was the place of the moving menu-->
+                    <!--The end with black line-->
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="TextGrid" MinHeight="1000" MinWidth ="1280" HorizontalAlignment="Right">
+                <Grid MinWidth="1310" MinHeight="891" HorizontalAlignment="Left" Margin="-30,0,330,0">
+                    
+                    <RichTextBox x:Name="Text_Field" MaxWidth="950" Width ="700" 
+                                 MinHeight="750" MaxHeight="1000" AcceptsTab="True" 
+                                 AcceptsReturn="True" HorizontalAlignment="Center"
+                                 Background="White" BorderBrush="{x:Null}"  SpellCheck.IsEnabled="True" 
+                                 FontSize="14" SelectionChanged="Text_Field_SelectionChanged" FontFamily="Times New Roman"> 
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter  
+                                    Property="Margin" Value="8"></Setter>
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
+                </Grid>
+                <DockPanel x:Name="DockPanelRight" Width="330"  MinHeight="891" HorizontalAlignment="Right" Background="#FF4F4A4F">
+                    <StackPanel Orientation="Vertical">
+                        <Grid MinHeight="30">
+                            <TextBlock x:Name="TextText" MinHeight="30" Text="Text" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#FFE8E4E4"/>
+                        </Grid>
+                        <ComboBox MinHeight="70" BorderBrush="#FFE8E4E4">
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel >
+                                    <TextBlock  HorizontalAlignment="Center" Text="Title" FontSize="22" FontWeight="Bold" Margin="140,15" />
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Subtitle" HorizontalAlignment="Center" FontSize="22" Margin="130,15"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock HorizontalAlignment="Center" Text="Heading" FontSize="20" FontWeight="Bold" Margin="130, 15"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Heading 2" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="120,20"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="Red" Text="Heading Red" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="110,15"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center" IsSelected="True">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Heading" FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="130,15"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Body" FontSize="18" HorizontalAlignment="Center" Margin="140,15"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="CAPTION" FontWeight="Bold" HorizontalAlignment="Center" FontSize="18" Margin="130,20"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <Grid x:Name="ManageButtondGrid" MinHeight="70">
+                            <Grid MinHeight="30" MaxWidth="240">
+                                <Button x:Name="btnStyle_right" BorderBrush="#FFD1D1D1" Foreground="#FFE8E4E4" Background="#FFBFAFAF" Content="Style" MinWidth="80" Height="30" HorizontalAlignment="Left" FontSize="16" FontFamily="Lucida Fax" FontWeight="Bold" />
+                                <Button x:Name="btnLayout_right" BorderBrush="#FFD1D1D1" Background="{x:Null}" Content="Layout" MinWidth="80" MaxHeight="30" HorizontalAlignment="Center" FontSize="16" FontFamily="Verdana"/>
+                                <Button x:Name="btnMore_right" BorderBrush="#FFD1D1D1" Background="{x:Null}" Content="More" MinWidth="80" MaxHeight="30" HorizontalAlignment="Right" FontSize="16" FontFamily="Verdana"/>
+                            </Grid>
+                        </Grid>
+                        <Grid MinHeight="1" Background="#FFCBBCBC" Margin="15,0">
+                        </Grid>
+                        <Grid MinHeight="15">
+                        </Grid>
+                        <Grid x:Name="FontGrid" MinHeight="150">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Name="TextFont" Text="Font" HorizontalAlignment="Left" FontSize="16" Margin="15,0" FontWeight="Bold" Foreground="#FFE8E4E4"/>
+                                <Grid MinHeight="10">
+
+                                </Grid>
+                                <Grid MinHeight="28" >
+                                    <ComboBox x:Name="cmbFontFamily" SelectionChanged="cmbFontFamily_SelectionChanged"  Height="28" Width="210" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF443D3D" HorizontalAlignment="Left" Margin="15,0" FontFamily="Times New Roman" VerticalAlignment="Center" ItemsSource="{x:Static Fonts.SystemFontFamilies}" ToolTip="Font">
+
+                                    </ComboBox>
+                                    <ComboBox ToolTip="Font Size" x:Name="cmbFontSize"  MinWidth="65" Margin="15,0" HorizontalAlignment="Right" SelectionChanged="cmbFontSize_SelectionChanged" SelectedIndex="0">
+
+                                    </ComboBox>
+                                </Grid>
+                                <Grid MinHeight="10">
+
+                                </Grid>
+                                <Grid Margin="15,0" MinHeight="28">
+                                    <Grid Height="28" Width="150" HorizontalAlignment="Left">
+                                        <Button x:Name="btnMakeBold" Width="50" Height="28" HorizontalAlignment="Left" Background="#FFF1F1F1" BorderBrush="#FFD8D1D1" Click="btnMakeBold_Click" >
+                                            <Image Source="/CourseProject;component/Resources/bold_letter.png" Height="17" Margin="1" Width="17"  VerticalAlignment="Center">
+                                            </Image>
+                                        </Button>
+                                        <Button  x:Name="btnMakeItalic" Background="#FFF1F1F1" BorderBrush="#FFD8D1D1" Width="50" HorizontalAlignment="Center" Click="btnMakeItalic_Click">
+                                            <Image Source="/CourseProject;component/Resources/italic_letter.png" Height="17" Margin="1" Width="17"  VerticalAlignment="Center">
+                                            </Image>
+                                        </Button>
+                                        <Button x:Name="btnMakeUnderline" Background="#FFF1F1F1" BorderBrush="#FFD8D1D1"  Width="50" HorizontalAlignment="Right" Click="btnMakeUnderline_Click">
+                                            <Image Source="/CourseProject;component/Resources/underline_icon.png" Height="17" Margin="1" Width="17"  VerticalAlignment="Center">
+                                            </Image>
+                                        </Button>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Right" Width="65">
+                                        <Button x:Name="btnChooseColor"  Width="28" Height="28" HorizontalAlignment="Right" BorderBrush="#FFD8D1D1"  Background="{x:Null}" Click="btnChooseColor_Click">
+                                            <Image Source="/CourseProject;component/Resources/colourful_circle.png" Height="20" Width="20"  VerticalAlignment="Center">
+
+                                            </Image>
+                                        </Button>
+                                        <Button x:Name="btnColourful" Width="37" HorizontalAlignment="Left" Background="#FF722C2C" Foreground="Black" BorderBrush="#FFD8D1D1" Click="btnColourful_Click">
+
+                                        </Button>
+                                    </Grid>
+
+                                </Grid>
+                                <Grid MinHeight="10">
+                                </Grid>
+                                <Grid Margin="15,0">
+                                    <TextBlock x:Name="TextCharacterStyle" Text="Character Style" HorizontalAlignment="Left" FontSize="16" Foreground="#FFE8E4E4" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="cbmCharacterStyle" Width="170" HorizontalAlignment="Right" SelectionChanged="cbmCharacterStyle_SelectionChanged" Background="#FFE5E5E5">
+                                        <ComboBoxItem HorizontalAlignment="Left" IsSelected="True">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="None" FontSize="16"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Underline" FontSize="16" TextDecorations="Underline"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Italic" FontSize="16" FontStyle="Italic"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Emphasis" FontSize="16" FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Overline" FontSize="16" TextDecorations="Overline"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Baseline" FontSize="16" TextDecorations="Baseline"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Strikethrough" FontSize="16" TextDecorations="Strikethrough"/>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                    </ComboBox>
+
+
+                                </Grid>
+                                <Grid MinHeight="10">
+                                </Grid>
+
+                            </StackPanel>
+
+                        </Grid>
+                        <Grid MinHeight="1" Background="#FFCBBCBC" Margin="15,0">
+                        </Grid>
+                        <Grid Height="15">
+
+                        </Grid>
+                        <Grid x:Name="AlignmentGrid" MinHeight="65">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Name="TextAlignment" Text="Alignment" HorizontalAlignment="Left" FontSize="16" Margin="15,0" FontWeight="Bold" Foreground="#FFE8E4E4"/>
+                                <Grid MinHeight="10">
+                                </Grid>
+
+                                <Grid Margin="15,0" MinHeight="30">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnLeftAlignment" Background="#FFF1F1F1" MinWidth="80" BorderBrush="#FFD1D1D1" Foreground="{x:Null}" Click="btnLeftAlignment_Click" Command="EditingCommands.AlignLeft"
+                                                CommandTarget="{Binding ElementName=Text_Field}">
+                                            <Image Source="/CourseProject;component/Resources/newleft.png" Height="20" Width="20"  VerticalAlignment="Center"/>
+                                        </Button>
+                                        <Button x:Name="btnCenterAlignment" Background="#FFF1F1F1" MinWidth="80" BorderBrush="#FFD1D1D1" Foreground="{x:Null}" Click="btnCenterAlignment_Click" Command="EditingCommands.AlignCenter" CommandTarget="{Binding ElementName=Text_Field}">
+                                            <Image Source="/CourseProject;component/Resources/newcenter.png" Height="20" Width="20"  VerticalAlignment="Center"/>
+                                        </Button>
+                                        <Button x:Name="btnRightAlignment" Background="#FFF1F1F1" MinWidth="80" BorderBrush="#FFD1D1D1" Foreground="{x:Null}" Click="btnRightAlignment_Click" Command="EditingCommands.AlignRight" CommandTarget="{Binding ElementName=Text_Field}">
+                                            <Image Source="/CourseProject;component/Resources/newright.png" Height="20" Width="20"  VerticalAlignment="Center"/>
+                                        </Button>
+                                        <Button x:Name="btnJustifyAlignment" Background="#FFF1F1F1" MinWidth="90" BorderBrush="#FFD1D1D1" Foreground="{x:Null}" Click="btnJustifyAlignment_Click" Command="EditingCommands.AlignJustify" CommandTarget="{Binding ElementName=Text_Field}">
+                                            <Image Source="/CourseProject;component/Resources/newjustify.png" Height="20"  Width="20"  VerticalAlignment="Center" Margin="0,0,30,0"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Height="15">
+                        </Grid>
+                        <Grid MinHeight="1" Background="#FFCBBCBC" Margin="15,0">
+                        </Grid>
+                        <Grid Height="15">
+                        </Grid>
+                        <Grid x:Name="SpacingGrid" MinHeight="30">
+                            <Grid Margin="15,0">
+                                <TextBlock x:Name="TextSpacing" Text="Spacing" HorizontalAlignment="Left" FontSize="16" FontWeight="Bold" Foreground="#FFE8E4E4" />
+                                <ComboBox x:Name="cmbSapcing" Height="28" Width="210" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF443D3D" HorizontalAlignment="Right" FontFamily="Broadway" SelectionChanged="cmbSapcing_SelectionChanged">
+                                    <ComboBoxItem HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Single" FontSize="16" FontFamily="Segoi UI"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="1,5 lines" FontSize="16" FontFamily="Segoi UI"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Double" FontSize="16" FontFamily="Segoi UI"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="At least" FontSize="16" FontFamily="Segoi UI"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Left" IsSelected="True">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Multiple" FontSize="16" FontFamily="Segoi UI"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                </ComboBox>
+                            </Grid>
+                        </Grid>
+                        <Grid Height="15">
+                        </Grid>
+                        <Grid MinHeight="25" Margin="15,0">
+                            <TextBlock x:Name="TextBeforeParagraph" Text="Before Paragraph" FontSize="14" HorizontalAlignment="Left" Foreground="#FFE8E4E4"/>
+                            <ComboBox HorizontalAlignment="Right" MinWidth="65" Background="#FFE5E5E5">
+                                <ComboBoxItem HorizontalAlignment="Left" IsSelected="True">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="0" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="1" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="2" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="3" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="4" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                        <Grid MinHeight="10">
+                        </Grid>
+                        <Grid MinHeight="25" Margin="15,0">
+                            <TextBlock x:Name="TextAfterParagraph" Text="After Paragraph" FontSize="14" HorizontalAlignment="Left" Foreground="#FFE8E4E4"/>
+                            <ComboBox HorizontalAlignment="Right" MinWidth="65" Background="#FFE5E5E5">
+                                <ComboBoxItem HorizontalAlignment="Left" IsSelected="True">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="0" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="1" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="2" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="3" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="4" FontSize="14"/>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                        <Grid MinHeight="10">
+                        </Grid>
+                        <Grid MinHeight="1" Background="#FFCBBCBC" Margin="15,0">
+                        </Grid>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </StackPanel>
+        <Button x:Name="ButtonOpen" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0">
+            <Image Source="/CourseProject;component/Resources/open_menu.png" Height="25" Margin="7" Width="25"  VerticalAlignment="Center"/>
+        </Button>
+        <Grid x:Name="GridMenu" Width="250" HorizontalAlignment="Left"  Margin="-250 0 0 0" Background="#FF5F5B5F" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <StackPanel>
+                <Grid Height="100">
+
+                </Grid>
+
+                <ListView Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFF9F3F3">
+                    <ListViewItem Height="65" Padding="0">
+                        <Button x:Name="btnHome" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="240">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" HorizontalAlignment="Left" Width="240">
+                                <Image Source="/CourseProject;component/Resources/home_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextHome" Text="Home" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0">
+                        <Button x:Name="btnChooseStyle" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="240" Click="btnChooseStyle_Click">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/paint_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextStyle" Text="Style" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0">
+                        <Button x:Name="btnSettings" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Click="btnSettings_Click" Width="240">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/setting_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextSettings" Text="Settings" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0" HorizontalAlignment="Left">
+                        <Button x:Name="btnNewProject"  HorizontalAlignment="Left" Width="240" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Click="btnNewProject_Click">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/new_textfile.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="TextNewFile" Text="New File" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0">
+                        <Button x:Name="btnOpenFile" Background="{x:Null}" Width="240" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="btnOpenFile_Click">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/open_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextOpen" Text="Open" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0">
+                        <Button x:Name="btnSaveFile" Width="240" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="btnSaveFile_Click">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/save_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextSave" Text="Save" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0">
+                        <Button x:Name="btnPrint" BorderBrush="{x:Null}" Width="240" Background="{x:Null}" Foreground="{x:Null}" Click="btnPrint_Click">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/print_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextPrint" Text="Print" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button> 
+                    </ListViewItem>
+
+                    <ListViewItem Height="65" Padding="0" Visibility="Collapsed">
+                        <Button x:Name="btnAccount" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Width="240">
+                            <StackPanel Orientation="Horizontal" Margin="10 0" Width="240">
+                                <Image Source="/CourseProject;component/Resources/acoount_colourful.png" Height="45" Margin="5" Width="45" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TextAccount"
+                                    Text="Account" Margin="10"  VerticalAlignment="Center" FontSize="15" Foreground="#FFE8E4E4" FontFamily="Microsoft YaHei UI Light" FontWeight="Bold" />
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                </ListView>
+            </StackPanel>
+            <Button x:Name="ButtonClose" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Click="ButtonClose_Click">
+                <Image Source="/CourseProject;component/Resources/arrow_left.png" Height="25" Margin="7" Width="25"  VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
